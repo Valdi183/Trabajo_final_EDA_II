@@ -1,3 +1,9 @@
+"""
+Este script, contiene las llamadas a la api para la creación de las tablas en la base de datos (pokemon.db) con los distintos datos de los pokemons.
+Por un lado creo unas tablas simples que contienen los distintos pokemons, habilidades, movimientos, tipos y estadísticas, y su id asignado.
+El resto de tablas relacionan a los pokemons con sus tipos, estadísticas, movimientos y habilidades, de esta forma puedo implementar un sistema
+que sea capaz de encontar cual es el mejor counter contra un equipo random, generado con el script: generar_quipo.py
+"""
 import requests
 import sqlite3
 
@@ -29,7 +35,9 @@ def obtener_detalles_pokemon(url):
 conexion = sqlite3.connect("pokemon.db")
 cursor = conexion.cursor()
 
-# Crear tablas
+# Creación de las distintas tablas para la base de datos tablas
+
+# Tabla para los Pokémon (id, nombre y url)
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS pokemon (
         id INTEGER PRIMARY KEY,
@@ -38,6 +46,7 @@ cursor.execute('''
     )
 ''')
 
+#Tabla para los tipos (id y nombre del tipo)
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS types (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,6 +54,7 @@ cursor.execute('''
     )
 ''')
 
+# Tabla que relaciona pokemons con sus posibles movimientos (id pokemon e id tipo)
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS pokemon_types (
         pokemon_id INTEGER,
@@ -54,6 +64,8 @@ cursor.execute('''
         FOREIGN KEY (type_id) REFERENCES types (id)
     )
 ''')
+
+# Tabla para las estadísticas (id y nombre de la estadística)
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS stats (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,6 +73,7 @@ cursor.execute('''
     )
 ''')
 
+# Tabla que relaciona pokemons con sus estadísticas (id pokemon e id estadística)
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS pokemon_stats (
         pokemon_id INTEGER,
@@ -72,7 +85,7 @@ cursor.execute('''
     )
 ''')
 
-# Crear tablas para habilidades
+# Tabla para las habilidades (id y nombre de la habilidad)
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS abilities (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -80,6 +93,7 @@ cursor.execute('''
     )
 ''')
 
+# Tabla que relaciona pokemons con sus habilidades (id pokemon e id habilidad) y si es escondida (0 si no lo es (false), 1 si lo es (true))
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS pokemon_abilities (
         pokemon_id INTEGER,
@@ -89,6 +103,8 @@ cursor.execute('''
         FOREIGN KEY (pokemon_id) REFERENCES pokemon (id),
         FOREIGN KEY (ability_id) REFERENCES abilities (id)
     )
+
+# Tabla para los movimientos (id y nombre del movimiento)
 ''')
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS moves (
@@ -97,6 +113,8 @@ cursor.execute('''
     )
 ''')
 
+
+# Tabla que relaciona pokemons con sus movimientos (id pokemon, id movimiento, método de aprendizaje, y nivel a partir del cual se puede aprender)
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS pokemon_moves (
         pokemon_id INTEGER,
@@ -202,7 +220,6 @@ if pokemons:
                         VALUES (?, ?, ?)
                     ''', (pokemon_id, ability_id, is_hidden))
                      # Insertar movimientos del Pokémon
-                     # Insertar movimientos del Pokémon
                 movimientos = detalles.get('moves', [])
                 for movimiento in movimientos:
                     move_name = movimiento['move']['name']
@@ -211,9 +228,12 @@ if pokemons:
                     cursor.execute('INSERT OR IGNORE INTO moves (name) VALUES (?)', (move_name,))
                     cursor.execute('SELECT id FROM moves WHERE name = ?', (move_name,))
                     move_id = cursor.fetchone()[0]
-                    cursor.execute('INSERT OR IGNORE INTO pokemon_moves (pokemon_id, move_id, method, level) VALUES (?, ?, ?, ?)', 
-                        (pokemon_id, move_id, method, level))
+                    cursor.execute(
+                        '''INSERT OR IGNORE INTO pokemon_moves (pokemon_id, move_id, method, level) 
+                        VALUES (?, ?, ?, ?)''' 
+                        ,(pokemon_id, move_id, method, level))
 
+        # Control de error
         except Exception as e:
             print(f"Error procesando Pokémon: {pokemon} - {e}")
     conexion.commit()
