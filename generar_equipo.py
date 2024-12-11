@@ -1,3 +1,11 @@
+"""
+Este script, genera un equipo random con 6 pokemons al azar elegido de la base de datos (pokemon.db), y se le asigna
+a cada uno de los pokemons elegidos sus estadísticas, 4 movimientos aleatorios (movimientos que puede aprender en el juego
+real), sus tipos (a cada pokemon le corresponde 1/2 tipos fijos) y una de las posibles habilidades que pueda tener.
+¡
+Con los métodos utilizados de la librería rando, me aseguro que no se elija más de una vez el mismo pokemon, también me aseguro 
+de que al seleccionar sus movimientos, estos no se repitan (random.sample()). 
+"""
 import sqlite3
 import random
 
