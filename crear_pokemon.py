@@ -2,7 +2,7 @@
 Este script, contiene las llamadas a la api para la creación de las tablas en la base de datos (pokemon.db) con los distintos datos de los pokemons.
 Por un lado creo unas tablas simples que contienen los distintos pokemons, habilidades, movimientos, tipos y estadísticas, y su id asignado.
 El resto de tablas relacionan a los pokemons con sus tipos, estadísticas, movimientos y habilidades, de esta forma puedo implementar un sistema
-que sea capaz de encontar cual es el mejor counter contra un equipo random, generado con el script: generar_quipo.py
+que sea capaz de encontar cual es el mejor counter contra un equipo random, generado con el script: counter_equipo_random.py
 """
 import requests
 import sqlite3
