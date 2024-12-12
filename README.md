@@ -1,4 +1,4 @@
-# PROYECTO EDA_II (DICIEMBRE) FINAL: SIMULADOR BATALLAS POKEMON
+# PROYECTO EDA_II (DICIEMBRE) FINAL: SIMULADOR POKEMON
 Este repositorio contiene todos los archivos que hacen posible el simulador.
 
 ### Nota:
