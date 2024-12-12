@@ -12,5 +12,5 @@ es el script con el que he creado la base de datos pokemon.db.
 ### [counter_equipo_random.py](https://github.com/Valdi183/Trabajo_final_EDA_II/blob/main/counter_equipo_random.py):
 puedes ejecutar este script para ver como a un equipo random generado, se crea el equipo más fuerte contra el equipo generado.
 
-###[grafo_pokemon_counter.py](https://github.com/Valdi183/Trabajo_final_EDA_II/blob/main/grafo_pokemon_counter.py):
+### [grafo_pokemon_counter.py](https://github.com/Valdi183/Trabajo_final_EDA_II/blob/main/grafo_pokemon_counter.py):
 puedes ejecutar este script, para ver cual es el pokemon más fuerte al pokemon que quieras introducir.
