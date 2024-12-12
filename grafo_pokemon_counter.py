@@ -79,7 +79,7 @@ def construir_grafo():
             if i != j:  # Evitar lazos
                 tipos2 = tipos_por_pokemon[nombre2]
                 ponderacion = calcular_ponderacion(tipos1, tipos2)
-                if ponderacion > 0:  # Solo agregar conexiones relevantes
+                if ponderacion > 0:  # Solo agrega conexiones relevantes
                     G.add_edge(nombre1, nombre2, weight=ponderacion)
 
     return G
@@ -106,13 +106,17 @@ print("Construyendo el grafo...")
 grafo_pokemon = construir_grafo()
 print("Grafo construido")
 
-# Pregunta al usuario por un pokemon
-pokemon_usuario = input("Ingresa el nombre de un Pokémon: ").strip().lower()
-resultado = encontrar_fuerte_contra(pokemon_usuario, grafo_pokemon)
-
-if isinstance(resultado, tuple):
-    print(f"El Pokémon más fuerte contra '{pokemon_usuario}' es '{resultado[0]}' con efectividad de {resultado[1]:.2f}.")
-else:
-    print(resultado)
+# Pregunta al usuario por un pokemon, si el usuario introduce "0", para
+while True:
+    pokemon_usuario = input("Ingresa el nombre de un Pokémon (o '0' para salir): ").strip().lower()
+    if pokemon_usuario == '0':
+        print("si quiere saber más pokemons counters, vuelva a ejecutar el código")
+        break
+    
+    resultado = encontrar_fuerte_contra(pokemon_usuario, grafo_pokemon)
+    if isinstance(resultado, tuple):
+        print(f"El Pokémon más fuerte contra '{pokemon_usuario}' es '{resultado[0]}' con efectividad de {resultado[1]:.2f}.")
+    else:
+        print(resultado)
 
 conexion.close()
